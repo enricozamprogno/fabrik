@@ -82,11 +82,13 @@ class FabrikViewForm extends FabrikViewFormBase
 			/** @var FabrikFEModelForm $model */
 			$model  = $this->getModel();
 			$data   = $model->getData();
-			$formId = $model->getId();
-			$slug   = $model->getListModel()->getSlug(ArrayHelper::toObject($data));
-			$rowId  = $slug === '' ? $model->getRowId() : $slug;
-			$view   = $model->isEditable() ? 'form' : 'details';
-			$url    = JRoute::_('index.php?option=com_' . $this->package . '&view=' . $view . '&formid=' . $formId . '&rowid=' . $rowId);
+			if (!is_null($model)) {
+				$formId = $model->getId();
+				$slug   = $model->getListModel()->getSlug(ArrayHelper::toObject($data));
+				$rowId  = $slug === '' ? $model->getRowId() : $slug;
+				$view   = $model->isEditable() ? 'form' : 'details';
+				$url    = JRoute::_('index.php?option=com_' . $this->package . '&view=' . $view . '&formid=' . $formId . '&rowid=' . $rowId);
+			}
 		}
 
 		return $url;
